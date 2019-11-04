@@ -49,6 +49,35 @@ Ball.prototype.update = function(){
   this.y += this.velY;
 }
 
+// Ball.prototype.collisionDetect = function() {
+//   for (let j = 0 ; j < balls.length ; j++) {
+//     if(!(this === balls[j])) {
+//       let dx = this.x - balls[j].x;
+//       let dy = this.y - balls[j].y;
+//       let distance = Math.sqrt(dx * dx + dy * dy);
+
+//       if (distance < this.size + balls[j].size) {
+//         balls[j].color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) +')';
+//         this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) +')';
+//       }
+//     }
+//   };
+// };
+
+Ball.prototype.collisionDetect = function() {
+  for (var j = 0; j < balls.length; j++) {
+    if (!(this === balls[j])) {
+      var dx = this.x - balls[j].x;
+      var dy = this.y - balls[j].y;
+      var distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < this.size + balls[j].size) {
+        balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) +')';
+      }
+    }
+  }
+}
+
 let balls = [];
 
 while(balls.length < 25) {
@@ -83,37 +112,11 @@ function loop() {
   for (var i = 0; i < balls.length; i++) {
     balls[i].draw();
     balls[i].update();
+    balls[i].collisionDetect();
   }
 
-  requestAnimationFrame(loop2);
+  requestAnimationFrame(loop);
 }
 
-
-
-const loop2 = () => {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-  ctx.fillRect(0, 0, width, height);
-
-  balls.forEach(ball => {
-    ball.draw();
-    ball.update();
-  })
-
-  requestAnimationFrame(loop2);
-}
 
 loop();
-
-const d = new Date()
-
-
-function d2(){
-  setTimeout(()=> {
-    let newDate = new Date()
-    console.log('newDate: ', newDate);
-    return newDate;
-  }, 5*1000)
-};
-
-console.log('d : ', d);
-d2();
